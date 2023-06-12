@@ -8,6 +8,7 @@ public class MovementController : MonoBehaviour
 {
     public float RotationSensivity = 0.3f;
     public GameObject fireAnimation;
+    public GameObject pause;
     private bool Pause = false;
 #pragma warning disable CS0108 // „лен скрывает унаследованный член: отсутствует новое ключевое слово
     Rigidbody2D rigidbody;
@@ -48,7 +49,17 @@ public class MovementController : MonoBehaviour
         {
             Destroy(fireAnimation);
         }
+        if (pause.GetComponent<TouchWrapper>().pressed)
+        {
+            initState = true;
+        }
+        if (!pause.GetComponent<TouchWrapper>().pressed && initState)
+        {
+            initState = false;
+            Pause = !Pause;
+        }
     }
+    bool initState = false;
     float[] InputWrapper()
     {
         float X = 0;

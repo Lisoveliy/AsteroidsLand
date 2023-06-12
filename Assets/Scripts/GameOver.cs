@@ -10,6 +10,8 @@ public class GameOver : MonoBehaviour
     public GameObject gameOverLabel;
     public GameObject gameOverTitleLabel;
     public GameObject player;
+    public GameObject Reset;
+    public GameObject Exit;
     public Sprite DeathTexture;
     public bool IsGameOver { private set; get; } = false;
     public void Invoke()
@@ -40,8 +42,9 @@ public class GameOver : MonoBehaviour
         GameObject.Find("Up").SetActive(false);
         GameObject.Find("Down").SetActive(false);
         GameObject.Find("Blast").SetActive(false);
-        GameObject.Find("Reset").SetActive(true);
-        GameObject.Find("Exit").SetActive(true);
+        GameObject.Find("Pause").SetActive(false);
+        Reset.SetActive(true);
+        Exit.SetActive(true);
 #endif
         Destroy(player.GetComponent<Rigidbody2D>());
         player.GetComponent<Rigidbody2D>().position = Vector3.zero;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
@@ -11,16 +12,42 @@ public class SpawnBullet : MonoBehaviour
     // Start is called before the first frame update
     Coroutine coroutine;
     Coroutine coroutinetouch;
+    bool corutinestarted;
     private void Update()
     {
+        GameObject BlastButton = GameObject.Find("Blast");
         if (Input.GetKeyDown(KeyCode.Space))
         {
             coroutine = StartCoroutine(CorutineShoot());
         }
+        else
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            StopCoroutine(coroutine);
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+            }
+            coroutine = null;
         }
+        else
+            try
+            {
+                if (BlastButton.GetComponent<TouchWrapper>().pressed)
+                {
+                    if (coroutine == null)
+                    {
+                        coroutine = StartCoroutine(CorutineShoot());
+                    }
+                }
+                else
+                {
+                    if (coroutine != null)
+                    {
+                        StopCoroutine(coroutine);
+                    }
+                    coroutine = null;
+                }
+            }catch (NullReferenceException) { }
     }
     IEnumerator CorutineShoot()
     {
