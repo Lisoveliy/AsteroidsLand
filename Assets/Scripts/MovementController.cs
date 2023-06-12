@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,12 +22,12 @@ public class MovementController : MonoBehaviour
     {
         if (!GameObject.Find("EventSystem").GetComponent<GameOver>().IsGameOver)
         {
-            //var touch = InputWrapper();
+            var touch = InputWrapper();
             float angle = rigidbody.rotation;
             angle = Mathf.Repeat(angle + 180, 360) - 180;
             DeltaTime = Time.deltaTime * 1000;
-            float X = -Input.GetAxis("Horizontal") * DeltaTime;
-            float Y = Input.GetAxis("Vertical") * DeltaTime;
+            float X = touch[0] * DeltaTime;
+            float Y = touch[1] * DeltaTime;
             rigidbody.AddRelativeForce(new Vector2(0, Y));
             rigidbody.rotation += X * RotationSensivity;
             if (X != 0 || Y > 0)
@@ -52,10 +53,18 @@ public class MovementController : MonoBehaviour
     {
         float X = 0;
         float Y = 0;
-        X += GameObject.Find("LeftRot").GetComponent<TouchWrapper>().pressed ? 1 : 0;
-        X -=GameObject.Find("RightRot").GetComponent<TouchWrapper>().pressed ? 1 : 0;
-        Y += GameObject.Find("Up").GetComponent<TouchWrapper>().pressed ? 1 : 0;
-        Y -= GameObject.Find("Down").GetComponent<TouchWrapper>().pressed ? 1 : 0;
+        try
+        {
+            X += GameObject.Find("LeftRot").GetComponent<TouchWrapper>().pressed ? 1 : 0;
+            X -= GameObject.Find("RightRot").GetComponent<TouchWrapper>().pressed ? 1 : 0;
+            Y += GameObject.Find("Up").GetComponent<TouchWrapper>().pressed ? 1 : 0;
+            Y -= GameObject.Find("Down").GetComponent<TouchWrapper>().pressed ? 1 : 0;
+        }
+        catch (NullReferenceException)
+        {
+            X = -Input.GetAxis("Horizontal");
+            Y = Input.GetAxis("Vertical");
+        }
         return new[] { X, Y };
     }
 }

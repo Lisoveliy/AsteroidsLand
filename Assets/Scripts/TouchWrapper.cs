@@ -10,7 +10,7 @@ public class TouchWrapper : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     public bool up;
     void Start()
     {
-        
+
     }
 
     void Update()
