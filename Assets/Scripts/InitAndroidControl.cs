@@ -16,6 +16,8 @@ public class InitAndroidControl : MonoBehaviour
     void Start()
     {
 #if UNITY_ANDROID
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
         leftRotation.SetActive(true);
         rightRotation.SetActive(true);
         Up.SetActive(true);
